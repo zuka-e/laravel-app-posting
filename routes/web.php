@@ -14,3 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/test', function () {
+    $test = 4 * 8;
+    return ($test);
+});
+Route::get('/posts', 'PostController@index')->name('posts');
+Route::get('/post/{id}', 'PostController@show')->name('post');
