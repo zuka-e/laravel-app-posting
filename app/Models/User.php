@@ -18,6 +18,14 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'email', 'password', 'phone_number'
     ];
+    public function posts()
+    {
+        return $this->hasMany('App\Models\Post');
+    }
+    public function comments()
+    {
+        return $this->hasMany('App\Models\Comment');
+    }
 
     /**
      * The attributes that should be hidden for arrays.
