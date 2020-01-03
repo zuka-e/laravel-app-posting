@@ -7,15 +7,19 @@
     <div class="border p-4 bg-white">
       <h2 class="mb-4">{{ $post->title }}</h2>
       <p class="mb-5">{{ $post->content }}</p>
-      <div class="mb-4 text-right">
-        <a class="btn btn-primary" href="{{ route('posts.edit', ['post' => $post]) }}">編集</a>
-        <form method="POST" action="{{ route('posts.destroy', ['post' => $post]) }}"
-        style="display: inline-block;">
-          @csrf
-          @method('DELETE')
-          <button class="btn btn-danger">削除</button>
-        </form>
-      </div>
+      @auth
+        @if($post->user_id == Auth::user()->id)
+          <div class="mb-4 text-right">
+            <a class="btn btn-primary" href="{{ route('posts.edit', ['post' => $post]) }}">編集</a>
+            <form method="POST" action="{{ route('posts.destroy', ['post' => $post]) }}"
+            style="display: inline-block;">
+              @csrf
+              @method('DELETE')
+              <button class="btn btn-danger">削除</button>
+            </form>
+          </div>
+        @endif
+      @endauth
       <section>
         <h4 class="mb-4">コメント</h4>
           @forelse($post->comments as $comment)
@@ -45,7 +49,11 @@
               @endif
             </div>
             <div class="mt-4">
-              <button type="submit" class="btn btn-primary">投稿</button>
+              @auth
+                <button type="submit" class="btn btn-primary">投稿</button>
+              @else
+                <a class="btn btn-dark" href="{{ route('login') }}">ログイン</a>
+              @endauth
             </div>
           </form>
         </section>

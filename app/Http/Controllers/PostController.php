@@ -63,7 +63,13 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('posts.edit', ['post' => $post]);
+        if(Auth::user()){
+          return view('posts.edit', ['post' => $post]);
+        }else{
+          session()->flash('msg_type','info');
+          session()->flash('msg','ログインしてください');
+          return redirect()->route('login');
+        }
     }
 
     /**
@@ -77,8 +83,14 @@ class PostController extends Controller
             'title' => ['required', 'string', 'max:20'],
             'content' => ['required', 'string', 'max:200']
         ]);
-        $post->fill($params)->save();
-        return redirect()->route('posts.show', ['post' => $post]);
+        if(Auth::user()){
+          $post->fill($params)->save();
+          return redirect()->route('posts.show', ['post' => $post]);
+        }else{
+          $request->session()->flash('msg_type','info');
+          $request->session()->flash('msg','ログインしてください');
+          return redirect()->route('register');
+        }
     }
 
     /**
