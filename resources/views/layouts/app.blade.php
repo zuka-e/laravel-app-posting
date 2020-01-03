@@ -15,6 +15,11 @@
 	<div id="app">
 		@include('layouts.header')
 		<main class="container py-4">
+			@if (session('msg'))
+				<div class="alert alert-{{ session('msg_type') }}">
+						{{ session('msg') }}
+				</div>
+			@endif
 			@yield('content')
 		</main>
 		@include('layouts.footer')

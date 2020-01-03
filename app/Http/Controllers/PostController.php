@@ -22,7 +22,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        $post = new Post();
+        return view('posts.create', ['post' => $post]);
     }
 
     /**
@@ -35,10 +36,16 @@ class PostController extends Controller
             'title' => ['required', 'string', 'max:20'],
             'content' => ['required', 'string', 'max:200']
         ]);
-        $post = new Post($params);
-        $post->user_id = Auth::user()->id;
-        $post->save();
-        return redirect()->route('posts.show', ['post' => $post]);
+        if(Auth::user()){
+            $post = new Post($params);
+            $post->user_id = Auth::user()->id;
+            $post->save();
+            return redirect()->route('posts.show', ['post' => $post]);
+        }else{
+            $request->session()->flash('msg_type','info');
+            $request->session()->flash('msg','登録してください');
+            return redirect()->route('register'); // URL直接 防止
+        }
     }
 
     /**
