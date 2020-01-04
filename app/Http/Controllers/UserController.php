@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Hash;
 use Auth;
 use Storage;
 
@@ -41,10 +43,16 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $params = $request->validate([
-            'name' => ['required', 'string'],
+            'name' => ['required', 'string', 'max:255', Rule::unique('users')->ignore($user->id)],
             'phone_number' => ['required', 'string'],
-            'email' => ['required', 'string']
+            'email' => ['required', 'string','email', 'max:255', Rule::unique('users')->ignore($user->id)],
+            'password' => ['nullable','string', 'min:8', 'confirmed'] // password空欄時はvalidate素通り
         ]);
+        if ($params['password']) { // password空欄時は$paramsから除く
+          $params['password'] = Hash::make($params['password']);
+        } else {
+            unset($params['password']);
+        }
         if($request->image){
           $file_name = $request->image->hashName();
           $request->image->storeAs('public/users',$file_name); // /storage/app/~ *public必須
