@@ -9,6 +9,11 @@ use Auth;
 
 class CommentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->only(['store','edit','update','destroy']);
+        $this->middleware('identify')->only(['edit','update','destroy']);
+    }
     /**
      * @return \Illuminate\Http\Response
      */

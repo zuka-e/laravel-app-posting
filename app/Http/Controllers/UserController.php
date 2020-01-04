@@ -11,6 +11,11 @@ use Storage;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->only(['edit','update']);
+        $this->middleware('identify')->only(['edit','update']);
+    }
     /**
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
@@ -26,13 +31,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        if(Auth::check() && $user->id == Auth::user()->id){
           return view('users.edit', ['user' => $user]);
-        }else{
-          session()->flash('msg_type','info');
-          session()->flash('msg','ログインしてください');
-          return redirect()->route('login');
-        }
     }
 
     /**
@@ -59,15 +58,9 @@ class UserController extends Controller
           Storage::disk('local')->delete('public/users/'.$user->image); // 要 use Storage 宣言
           $user->update(['image' => $file_name]);
         }
-        if(Auth::check() && $user->id == Auth::user()->id){
           $user->fill($params)->save();
           $request->session()->flash('msg_type','success');
           $request->session()->flash('msg','保存しました');
           return redirect()->route('users.show', ['user' => $user]);
-        }else{
-          $request->session()->flash('msg_type','info');
-          $request->session()->flash('msg','ログインしてください');
-          return redirect()->route('login');
-        }
     }
 }
