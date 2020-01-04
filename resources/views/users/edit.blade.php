@@ -11,7 +11,7 @@
         @csrf
         @method('PATCH')
         <div class="form-group row">
-          <img src="/storage/users/{{ $user->image }}" class="image col-sm-4"/>
+          <img src="/storage/users/{{ $user->image }}" onerror="this.src='/storage/no_image.jpg'" class="image col-sm-4"/>
           <input type="file" id="image" name="image" class="col-sm-12 my-1"/>
           @error('image')
           <span class="invalid-feedback" role="alert">
