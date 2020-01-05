@@ -8,6 +8,11 @@ use Auth;
 
 class PostController extends Controller
 {
+  public function __construct()
+  {
+    $this->middleware('auth')->only(['store','edit','update','destroy']);
+    $this->middleware('identify')->only(['edit','update','destroy']);
+  }
     /**
      * @return \Illuminate\Http\Response
      */
@@ -36,16 +41,10 @@ class PostController extends Controller
             'title' => ['required', 'string', 'max:20'],
             'content' => ['required', 'string', 'max:200']
         ]);
-        if(Auth::user()){
-            $post = new Post($params);
-            $post->user_id = Auth::user()->id;
-            $post->save();
-            return redirect()->route('posts.show', ['post' => $post]);
-        }else{
-            $request->session()->flash('msg_type','info');
-            $request->session()->flash('msg','登録してください');
-            return redirect()->route('register'); // URL直接 防止
-        }
+        $post = new Post($params);
+        $post->user_id = Auth::user()->id;
+        $post->save();
+        return redirect()->route('posts.show', ['post' => $post]);
     }
 
     /**
@@ -63,13 +62,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        if(Auth::user()){
-          return view('posts.edit', ['post' => $post]);
-        }else{
-          session()->flash('msg_type','info');
-          session()->flash('msg','ログインしてください');
-          return redirect()->route('login');
-        }
+        return view('posts.edit', ['post' => $post]);
     }
 
     /**
@@ -83,14 +76,8 @@ class PostController extends Controller
             'title' => ['required', 'string', 'max:20'],
             'content' => ['required', 'string', 'max:200']
         ]);
-        if(Auth::user()){
-          $post->fill($params)->save();
-          return redirect()->route('posts.show', ['post' => $post]);
-        }else{
-          $request->session()->flash('msg_type','info');
-          $request->session()->flash('msg','ログインしてください');
-          return redirect()->route('register');
-        }
+        $post->fill($params)->save();
+        return redirect()->route('posts.show', ['post' => $post]);
     }
 
     /**
