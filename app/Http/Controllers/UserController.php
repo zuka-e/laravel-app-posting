@@ -42,7 +42,7 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $params = $request->validate([
-            'name' => ['required', 'string', 'max:255', Rule::unique('users')->ignore($user->id)],
+            'name' => ['required', 'string', 'min:2', 'max:255', Rule::unique('users')->ignore($user->id)],
             'phone_number' => ['required', 'string'],
             'email' => ['required', 'string','email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'password' => ['nullable','string', 'min:8', 'confirmed'] // password空欄時はvalidate素通り
