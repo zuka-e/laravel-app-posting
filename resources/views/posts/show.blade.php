@@ -4,8 +4,15 @@
 @section('content')
 <div class="row">
   <div class="col-sm-8 offset-sm-2 col-xs-12">
-    <div class="border p-4 bg-white">
-      <h2 class="mb-4">{{ $post->title }}</h2>
+    <div class="border rounded p-4 bg-white">
+      <div class="row mb-2">
+        <span class="col-auto mr-auto">@ {{ $post->user->name }}</span>
+        <time class="col-auto text-secondary">{{ $post->updated_at->format('Y/m/d H:i') }}</time>
+      </div>
+      <div class="row mb-4">
+        <h2 class="col-auto mr-auto">{{ $post->title }}</h2>
+        <span class="col-auto text-secondary">{{ $post->created_at !== $post->updated_at ? '( 編集済 )' : ''}}</span>
+      </div>
       <p class="mb-5">{{ $post->content }}</p>
       @include('shared.edit_destroy',['column' => 'post', 'val' => $post])
       <section>
@@ -14,7 +21,7 @@
             <div class="border-top pt-4 pb-2">
               <div class="row mx-0">
                 <span class="col-auto mr-auto">{{ $comment->user->name }}</span>
-                <time class="col-auto text-secondary">{{ $comment->created_at->format('Y.m.d H:i') }}</time>
+                <time class="col-auto text-secondary">{{ $comment->updated_at->format('Y/m/d H:i') }}</time>
               </div>
               <p class="border p-2 mt-2">{{ $comment->content }}</p>
             </div>

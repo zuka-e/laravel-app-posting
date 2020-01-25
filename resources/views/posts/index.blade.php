@@ -7,19 +7,18 @@
     <div class="my-4">
       @foreach ($posts as $post)
         <a href="{{ route('posts.show', ['post' => $post]) }}" class="card mb-4">
-          <div  class="card-header">
-            <h4 class="card-title mb-0">
-              {{ $post->title }}
-            </h4>
+          <div class="card-header row mx-0">
+            <h4 class="card-title col-auto mb-0 mr-auto pl-0">{{ $post->title }}</h4>
+            <span class="col-auto">@ {{ $post->user->name }}</span>
           </div>
           <div class="card-body">
             <p class="card-text">
               {{ $post->content }}
             </p>
           </div>
-          <div class="card-footer row mx-0">
+          <div class="card-footer row mx-0 pl-0">
             <span class="col-auto mr-auto">
-              投稿日時 {{ $post->created_at->format('Y.m.d') }}
+              投稿日時 {{ $post->created_at->format('Y/m/d H:i') }}
             </span>
             <div class="col-auto btn btn-primary btn-sm">
               コメント
