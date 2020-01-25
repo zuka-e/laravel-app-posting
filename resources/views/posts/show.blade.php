@@ -7,19 +7,7 @@
     <div class="border p-4 bg-white">
       <h2 class="mb-4">{{ $post->title }}</h2>
       <p class="mb-5">{{ $post->content }}</p>
-      @auth
-        @if($post->user_id == Auth::user()->id)
-          <div class="mb-4 text-right">
-            <a class="btn btn-primary" href="{{ route('posts.edit', ['post' => $post]) }}">編集</a>
-            <form method="POST" action="{{ route('posts.destroy', ['post' => $post]) }}"
-            style="display: inline-block;">
-              @csrf
-              @method('DELETE')
-              <button class="btn btn-danger">削除</button>
-            </form>
-          </div>
-        @endif
-      @endauth
+      @include('shared.edit_destroy',['column' => 'post', 'val' => $post])
       <section>
         <h4 class="mb-4">コメント</h4>
           @forelse($post->comments as $comment)
@@ -30,6 +18,7 @@
               </div>
               <p class="border p-2 mt-2">{{ $comment->content }}</p>
             </div>
+            @include('shared.edit_destroy',['column' => 'comment', 'val' => $comment])
             @empty
               <p>コメントはまだありません。</p>
           @endforelse
@@ -39,10 +28,10 @@
             <div class="form-group">
               <label for="content">本文</label>
               <textarea name="content" rows="4" id="content"
-              class="form-control {{ $errors->has('body') ? 'is-invalid' : '' }}">
-                {{ old('body') }}
+              class="form-control {{ $errors->has('content') ? 'is-invalid' : '' }}">
+                {{ old('content') }}
               </textarea>
-              @if ($errors->has('body'))
+              @if ($errors->has('content'))
                 <div class="invalid-feedback">
                   {{ $errors->first('content') }}
                 </div>

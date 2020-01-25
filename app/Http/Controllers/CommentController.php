@@ -13,7 +13,7 @@ class CommentController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->only(['store','edit','update','destroy']);
-        $this->middleware('identify')->only(['edit','update','destroy']);
+        $this->authorizeResource(Comment::class, 'comment'); // Policy(認可)
     }
     /**
      * @return \Illuminate\Http\Response
