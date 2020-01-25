@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
+use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
-use Auth;
 use Storage;
 
 class UserController extends Controller
@@ -39,18 +38,13 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, User $user)
     {
-        $params = $request->validate([
-            'name' => ['required', 'string', 'min:2', 'max:255', Rule::unique('users')->ignore($user->id)],
-            'phone_number' => ['required', 'string'],
-            'email' => ['required', 'string','email', 'max:255', Rule::unique('users')->ignore($user->id)],
-            'password' => ['nullable','string', 'min:8', 'confirmed'] // password空欄時はvalidate素通り
-        ]);
-        if ($params['password']) { // password空欄時は$paramsから除く
-          $params['password'] = Hash::make($params['password']);
+        $validated = $request->validated();
+        if ($validated['password']) { // password空欄時は$validatedから除く
+          $validated['password'] = Hash::make($validated['password']);
         } else {
-            unset($params['password']);
+            unset($validated['password']);
         }
         if($request->image){
           $file_name = $request->image->hashName();
@@ -58,7 +52,7 @@ class UserController extends Controller
           Storage::disk('local')->delete('public/users/'.$user->image); // 要 use Storage 宣言
           $user->update(['image' => $file_name]);
         }
-          $user->fill($params)->save();
+          $user->fill($validated)->save();
           $request->session()->flash('msg_type','success');
           $request->session()->flash('msg','保存しました');
           return redirect()->route('users.show', ['user' => $user]);
