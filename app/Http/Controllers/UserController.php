@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->only(['edit','update']);
+        $this->middleware('verified')->only(['edit','update']);
         $this->authorizeResource(User::class, 'user'); // Policy(認可)
     }
     /**
