@@ -24,3 +24,9 @@ Route::resource('users', 'UserController')->only(['show', 'edit', 'update']);
 Route::resource('posts', 'PostController');
 
 Route::resource('comments', 'CommentController');
+
+// Route::get('mail', function () { # 送信メールプレビューURL
+//     $user = App\Models\User::find(1);
+//     return (new App\Notifications\ResetPasswordNotification($user))
+//                 ->toMail($user);
+// });
