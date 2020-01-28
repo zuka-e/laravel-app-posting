@@ -2,7 +2,7 @@
 @section('title', $post->title)
 
 @section('content')
-<div class="row">
+<div class="row my-4">
   <div class="col-md-8 offset-md-2 col-12">
     <div class="border rounded p-4 bg-white">
       <div class="row mb-2">
