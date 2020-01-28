@@ -3,7 +3,7 @@
 
 @section('content')
 <div class="row">
-  <div class="col-sm-8 offset-sm-2 col-xs-12">
+  <div class="col-md-8 offset-md-2 col-12">
     <div class="card">
       <div class="card-header">{{ __('登録情報') }}</div>
       <div class="card-body">
