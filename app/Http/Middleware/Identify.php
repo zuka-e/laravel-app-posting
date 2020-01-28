@@ -21,7 +21,7 @@ class Identify
         } else {
             session()->flash('msg_type','danger');
             session()->flash('msg','不正なアクセスです');
-            return redirect()->route('home');
+            return redirect()->route('root');
 
         }
     }

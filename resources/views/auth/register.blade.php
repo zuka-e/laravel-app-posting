@@ -2,8 +2,8 @@
 @section('title', '新規登録')
 
 @section('content')
-<div class="row justify-content-center">
-  <div class="col-sm-8 offset-sm-2 col-xs-12">
+<div class="row justify-content-center my-4">
+  <div class="col-md-8 offset-md-2 col-12">
     <div class="card">
       <div class="card-header">{{ __('ユーザ登録') }}</div>
       <div class="card-body">

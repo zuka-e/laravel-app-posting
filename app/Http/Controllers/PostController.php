@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use App\Http\Requests\PostRequest;
 use Auth;
 
 class PostController extends Controller
 {
   public function __construct()
   {
-    $this->middleware('auth')->only(['store','edit','update','destroy']);
-    $this->middleware('identify')->only(['edit','update','destroy']);
+    $this->middleware('verified')->only(['store','edit','update','destroy']);
+    $this->authorizeResource(Post::class, 'post'); // Policy(認可)
   }
     /**
      * @return \Illuminate\Http\Response
@@ -35,13 +36,10 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-        $params = $request->validate([
-            'title' => ['required', 'string', 'max:20'],
-            'content' => ['required', 'string', 'max:200']
-        ]);
-        $post = new Post($params);
+        $validated = $request->validated(); // なくても動作する？
+        $post = new Post($validated);
         $post->user_id = Auth::user()->id;
         $post->save();
         return redirect()->route('posts.show', ['post' => $post]);
@@ -62,6 +60,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        $this->authorize('update', $post);
         return view('posts.edit', ['post' => $post]);
     }
 
@@ -70,13 +69,10 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(PostRequest $request, Post $post)
     {
-        $params = $request->validate([
-            'title' => ['required', 'string', 'max:20'],
-            'content' => ['required', 'string', 'max:200']
-        ]);
-        $post->fill($params)->save();
+        $validated = $request->validated();
+        $post->fill($validated)->save();
         return redirect()->route('posts.show', ['post' => $post]);
     }
 
