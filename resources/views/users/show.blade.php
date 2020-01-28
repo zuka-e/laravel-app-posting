@@ -3,7 +3,7 @@
 
 @section('content')
 <div class="row my-4">
-  <div class="col-sm-3 col-xs-12">
+  <div class="col-lg-3 d-lg-block">
     <div class="card mb-4">
       <img src="/storage/users/{{ $user->image }}" onerror="this.src='/storage/no_image.jpg'" class="image card-img-top" width="100%" height="100%"/>
       <ul class="list-group list-group-flush">
@@ -15,7 +15,7 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-7 col-xs-12">
+  <div class="col-lg-7">
     @include('posts.cards_index', ['posts' => $user->posts()->paginate(20)])
   </div>
 </div>

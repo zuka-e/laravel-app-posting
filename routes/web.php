@@ -11,13 +11,9 @@
 |
 */
 
-Route::get('/', function (){
-    return view('welcome');
-});
-
 Auth::routes(['verify' => true]); # メール確認を利用する
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('root');
 
 Route::resource('users', 'UserController')->only(['show', 'edit', 'update']);
 
