@@ -37,7 +37,7 @@ return [
     'email'                => ':attributeを正しいメールアドレスにしてください。',
     'filled'               => ':attributeは必須です。',
     'exists'               => '選択された:attributeは正しくありません。',
-    'image'                => ':attributeは画像にしてください。',
+    'image'                => ':attributeは画像ファイルにしてください。',
     'in'                   => '選択された:attributeは正しくありません。',
     'integer'              => ':attributeは整数にしてください。',
     'ip'                   => ':attributeを正しいIPアドレスにしてください。',
@@ -71,8 +71,10 @@ return [
         'array'   => ':attributeは:size個にしてください。',
     ],
     'string'               => ':attributeは文字列にしてください。',
-    'timezone'             => ':attributeは正しいタイムゾーンをしていしてください。',
+    'timezone'             => ':attributeは正しいタイムゾーンを指定してください。',
     'unique'               => ':attributeは既に存在します。',
+    'uploaded'             => ':attributeのアップロードに失敗しました',
+    'uuid'                 => ':attributeは有効なUUIDにしてください',
     'url'                  => ':attributeを正しい書式にしてください。',
 
     /*
@@ -104,13 +106,13 @@ return [
     */
 
     'attributes' => [
-      'name' => '名前',
-      'email' => 'メールアドレス',
-      'password' => 'パスワード',
-      'phone_number' => '電話番号',
-      'image' => '画像',
-      'title' => 'タイトル',
-      'content' => '本文'
+        'name' => 'ユーザ名',
+        'email' => 'メールアドレス',
+        'password' => 'パスワード',
+        'phone_number' => '電話番号',
+        'image' => '画像',
+        'title' => 'タイトル',
+        'content' => '本文'
     ],
 
 ];

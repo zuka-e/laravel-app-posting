@@ -41,17 +41,21 @@ class UserController extends Controller
     public function update(UserRequest $request, User $user)
     {
         $validated = $request->validated();
-        if ($validated['password']) { // password空欄時は$validatedから除く
+
+        if ($validated['password']) {
           $validated['password'] = Hash::make($validated['password']);
-        } else {
+        } else { // password空欄時は$validatedから除く
             unset($validated['password']);
         }
-        if($request->image){
-          $file_name = $request->image->hashName();
-          $request->image->storeAs('public/users',$file_name); // /storage/app/~ *public必須
+
+        if(isset($validated['image'])){
+          $file_name = $validated['image']->hashName();
+          $validated['image']->storeAs('public/users',$file_name); // /storage/app/~ *public必須
           Storage::disk('local')->delete('public/users/'.$user->image); // 要 use Storage 宣言
           $user->update(['image' => $file_name]);
+          unset($validated['image']);
         }
+
           $user->fill($validated)->save();
           $request->session()->flash('msg_type','success');
           $request->session()->flash('msg','保存しました');

@@ -10,7 +10,19 @@
         <form method="POST" action="{{ route('users.update', ['user' => $user ]) }}" enctype="multipart/form-data">
           @csrf
           @method('PATCH')
-          @include('users.form',['submit' => '更新'])
+          <div class="form-group row">
+            <label for="image" class="col-md-12 col-form-label text-md-left">{{ __('プロフィール画像') }}</label>
+            <img src="/storage/users/{{ $user->image }}" onerror="this.src='/storage/no_image.jpg'" class="image col-md-4"/>
+            <div class="col-md-12">
+              <input id="image" type="file" class="my-1 @error('image') form-control is-invalid @enderror" name="image"/>
+              @error('image')
+                <span class="invalid-feedback col-md-12 d-block" role="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+              @enderror
+            </div>
+          </div>
+          @include('users.form', ['user' => $user, 'submit' => '更新'])
         </form>
       </div>
     </div>
