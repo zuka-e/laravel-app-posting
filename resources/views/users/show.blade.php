@@ -10,9 +10,11 @@
         <li class="list-group-item">@ {{ $user->name }}</li>
         <li class="list-group-item">投稿 {{ count($user->posts) }}件</li>
       </ul>
-      <div class="card-footer">
-        <a class="btn btn-primary btn-block" href="{{ route('users.edit', ['user' => $user]) }}">編集</a>
-      </div>
+      @can('update', $user)
+        <div class="card-footer">
+          <a class="btn btn-primary btn-block" href="{{ route('users.edit', ['user' => $user]) }}">編集</a>
+        </div>
+      @endcan
     </div>
   </div>
   <div class="col-lg-7">
