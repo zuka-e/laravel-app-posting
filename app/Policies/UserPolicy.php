@@ -27,7 +27,7 @@ class UserPolicy
      * @param  \App\Models\User  $model
      * @return mixed
      */
-    public function view(User $user, User $model)
+    public function view(?User $user, User $model) # ?: nullデフォルトバリュー(guestを許可)
     {
         return true;
     }

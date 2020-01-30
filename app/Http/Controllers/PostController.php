@@ -11,7 +11,7 @@ class PostController extends Controller
 {
   public function __construct()
   {
-    $this->middleware('verified')->only(['store','edit','update','destroy']);
+    $this->middleware('verified')->only(['create','store','edit','update','destroy']);
     $this->authorizeResource(Post::class, 'post'); // Policy(認可)
   }
     /**
@@ -60,7 +60,6 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        $this->authorize('update', $post);
         return view('posts.edit', ['post' => $post]);
     }
 

@@ -11,7 +11,7 @@
       </div>
       <div class="row mb-4">
         <h2 class="col-auto mr-auto">{{ $post->title }}</h2>
-        <span class="col-auto text-secondary">{{ $post->created_at !== $post->updated_at ? '( 編集済 )' : ''}}</span>
+        <span class="col-auto text-secondary">{{ $post->created_at != $post->updated_at ? '( 編集済 )' : ''}}</span>
       </div>
       <p class="mb-5">{{ $post->content }}</p>
       @include('shared.edit_destroy',['column' => 'post', 'val' => $post])
@@ -20,7 +20,7 @@
           @forelse($post->comments as $comment)
             <div class="border-top pt-4 pb-2">
               <div class="row mx-0">
-                <span class="col-auto mr-auto">{{ $comment->user->name }}</span>
+                <span class="col-auto mr-auto">@ {{ $comment->user->name }}</span>
                 <time class="col-auto text-secondary">{{ $comment->updated_at->format('Y/m/d H:i') }}</time>
               </div>
               <p class="border p-2 mt-2">{{ $comment->content }}</p>
