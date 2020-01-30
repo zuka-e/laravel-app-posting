@@ -48,11 +48,20 @@ class UserController extends Controller
             unset($validated['password']);
         }
 
-        if(isset($validated['image'])){
-          $file_name = $validated['image']->hashName();
-          $validated['image']->storeAs('public/users',$file_name); // /storage/app/~ *public必須
-          Storage::disk('local')->delete('public/users/'.$user->image); // 要 use Storage 宣言
-          $user->update(['image' => $file_name]);
+        if(isset($validated['image'])){ // imageファイル保存(環境で分岐)
+          if (\App::environment('production')){
+            $image_file = $request->file('image');
+            $relative_image_path = Storage::disk('s3')->putFile('profile', $image_file, 'public'); # 時刻ズレあるとエラー
+            $absolute_image_path = Storage::disk('s3')->url($relative_image_path);
+            Storage::disk('s3')->delete($user->image);
+            $user->update(['image' => $relative_image_path]);
+          }else{
+            $file_name = $validated['image']->hashName();
+            $relative_image_path = $validated['image']->storeAs('public/users',$file_name); // /storage/app/~ *public必須
+            $absolute_image_path = Storage::disk('local')->url($relative_image_path);
+            Storage::disk('local')->delete($user->image); // 要 use Storage 宣言
+            $user->update(['image' => $file_name]);
+          }
           unset($validated['image']);
         }
 
