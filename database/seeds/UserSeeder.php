@@ -12,6 +12,14 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        User::create([ # test_user
+            'name' => "user",
+            'phone_number' => '',
+            'email' => 'user@test.com',
+            'email_verified_at' => Carbon\Carbon::now(),
+            'password' => Hash::make('password'),
+            ]);
+
         for( $index = 1; $index <= 50; $index++ ) {
             $faker = Faker\Factory::create('ja_JP');
             User::create([

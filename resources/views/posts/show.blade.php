@@ -20,7 +20,7 @@
           @forelse($post->comments as $comment)
             <div class="border-top pt-4 pb-2">
               <div class="row mx-0">
-                <span class="col-auto mr-auto">{{ $comment->user->name }}</span>
+                <span class="col-auto mr-auto">@ {{ $comment->user->name }}</span>
                 <time class="col-auto text-secondary">{{ $comment->updated_at->format('Y/m/d H:i') }}</time>
               </div>
               <p class="border p-2 mt-2">{{ $comment->content }}</p>
