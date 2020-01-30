@@ -11,7 +11,7 @@
       </div>
       <div class="row mb-4">
         <h2 class="col-auto mr-auto">{{ $post->title }}</h2>
-        <span class="col-auto text-secondary">{{ $post->created_at !== $post->updated_at ? '( 編集済 )' : ''}}</span>
+        <span class="col-auto text-secondary">{{ $post->created_at != $post->updated_at ? '( 編集済 )' : ''}}</span>
       </div>
       <p class="mb-5">{{ $post->content }}</p>
       @include('shared.edit_destroy',['column' => 'post', 'val' => $post])
