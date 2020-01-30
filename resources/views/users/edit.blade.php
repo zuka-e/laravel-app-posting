@@ -13,7 +13,7 @@
           <div class="form-group row">
             <label for="image" class="col-md-12 col-form-label text-md-left">{{ __('プロフィール画像') }}</label>
             <img src="@if(App::environment('production')){{ env('AWS_URL') }}@else /storage/users/@endif{{ $user->image }}"
-            onerror="this.src='/storage/no_image.jpg'" class="image col-md-4"/>
+            onerror="this.src='{{ asset('/img/no_image.jpg') }}'" class="image col-md-4"/>
             <div class="col-md-12">
               <input id="image" type="file" class="my-1 @error('image') form-control is-invalid @enderror" name="image"/>
               @error('image')
