@@ -20,7 +20,8 @@
           </li>
         </ul>
       @else
-      <img src="/storage/users/{{ $user->image }}" onerror="this.src='/storage/no_image.jpg'" class="image card-img-top" width="100%" height="100%"/>
+      <img src="@if(App::environment('production')){{ env('AWS_URL') }}@else /storage/users/@endif{{ $user->image }}"
+      onerror="this.src='/storage/no_image.jpg'" class="image card-img-top" width="100%" height="100%"/>
       <ul class="list-group list-group-flush">
         <li class="list-group-item">@ {{ $user->name }}</li>
         <li class="list-group-item">投稿 {{ count($user->posts) }}件</li>
