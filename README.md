@@ -1,3 +1,8 @@
+# Demo
+|PC|Mobile|
+|---|---|
+|<img src="https://github.com/zuka-e/laravel-app-posting/blob/master/public/img/home_pc.jpg" width="600">|<img src="https://github.com/zuka-e/laravel-app-posting/blob/master/public/img/home_mobile.jpg" width="200">|
+
 # Functions
 
 - RESTful URL (A common URL, which is understandable)
